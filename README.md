@@ -31,7 +31,7 @@ Maskopy is a obfuscation tool agnostic solution. Teams can leverage any encrypti
 
 ```hcl
 module "maskopy" {
-    source = "git::https://github.com/DNXLabs/terraform-aws-maskopy.git?ref=0.1.0"
+    source = "git::https://github.com/DNXLabs/terraform-aws-maskopy.git?ref=0.1.1"
 
     enabled = true
 
