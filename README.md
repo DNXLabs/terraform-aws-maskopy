@@ -81,7 +81,7 @@ module "maskopy" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | application\_name | The name for the maskopy application, this name should match part of the string with the invoker role name. | `string` | `"MASKOPY"` | no |
-| build\_lambda | If true will build the lambdas and layer. Set to true only with local source module. | `bool` | `false` | no |
+| build\_lambda\_layer | If true will build the lambda layer. Set to true only with local source module. | `bool` | `false` | no |
 | cost\_center | All the temporary resources are tagged with the code. | `string` | `"MaskopyCost"` | no |
 | create\_obfuscation\_scripts\_bucket | Create bucket to store obfuscation scripts. | `bool` | `true` | no |
 | custom\_source\_kms\_key | Custom KMS key, used when variable `custom_source_kms_key_enabled` equals to true. | `string` | `""` | no |
