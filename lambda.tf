@@ -1,15 +1,5 @@
-data "archive_file" "maskopy_lambda_layer_zip" {
-  count = (var.enabled && var.build_lambda_layer) ? 1 : 0
-
-  type        = "zip"
-  source_dir  = "${path.module}/lambda_layer_payload"
-  output_path = "${path.module}/release/lambda_layer_payload.zip"
-
-  depends_on = [null_resource.setup_lambda_layer]
-}
-
 resource "null_resource" "setup_lambda_layer" {
-  count = (var.enabled && var.build_lambda_layer) ? 1 : 0
+  count = (var.enabled && var.build_lambda) ? 1 : 0
 
   triggers = {
     requirements = base64sha256(file("${path.module}/lambda/requirements.txt"))
@@ -18,6 +8,16 @@ resource "null_resource" "setup_lambda_layer" {
   provisioner "local-exec" {
     command = "${path.module}/setup-lambda-layer.sh"
   }
+}
+
+data "archive_file" "maskopy_lambda_layer_zip" {
+  count = (var.enabled && var.build_lambda) ? 1 : 0
+
+  type        = "zip"
+  source_dir  = "${path.module}/lambda_layer_payload"
+  output_path = "${path.module}/release/lambda_layer_payload.zip"
+
+  depends_on = [null_resource.setup_lambda_layer]
 }
 
 resource "aws_lambda_layer_version" "maskopy_lambda_layer" {
@@ -35,7 +35,7 @@ resource "aws_lambda_layer_version" "maskopy_lambda_layer" {
 }
 
 data "archive_file" "lambda_zip_file" {
-  count = var.enabled ? length(var.lambdas_names) : 0
+  count = (var.enabled && var.build_lambda) ? length(var.lambdas_names) : 0
 
   type        = "zip"
   source_dir  = "${path.module}/lambda/${var.lambdas_names[count.index]}"
