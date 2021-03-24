@@ -4,10 +4,10 @@ variable "enabled" {
   description = "If true, will deploy the maskopy solution."
 }
 
-variable "build_lambda" {
+variable "build_lambda_layer" {
   default     = false
   type        = bool
-  description = "If true will build the lambdas and layer. Set to true only with local source module."
+  description = "If true will build the lambda layer. Set to true only with local source module."
 }
 
 variable "sqs_queue_name" {
