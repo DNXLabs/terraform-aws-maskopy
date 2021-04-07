@@ -1,5 +1,5 @@
 #!/bin/bash -e
-export AWS_DEFAULT_REGION=us-east-1
+export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
 
 function log_msg {
 #-------------------------------------------------
@@ -58,7 +58,7 @@ if [ -f bootstrap.sh ]; then
    chown -R $APP_USER:$APP_USER /home/$APP_USER/maskopy
    chown -R $APP_USER:$APP_USER /var/log
    chown -R $APP_USER:$APP_USER "/home/${APP_USER}/maskopy/bootstrap.log"
-   su -m $APP_USER -c "cd /home/$APP_USER/maskopy; PASSWORD=$PASSWORD bash -e ./bootstrap.sh ${RDS_ENDPOINT} ${TARGET_PORT} ${RDS_MASTER_USER}" | tee -a "/home/${APP_USER}/maskopy/bootstrap.log"
+   su -m $APP_USER -c "cd /home/$APP_USER/maskopy; PASSWORD=$PASSWORD bash -e ./bootstrap.sh ${AWS_DEFAULT_REGION} ${RDS_ENDPOINT} ${TARGET_PORT} ${RDS_MASTER_USER} ${DB_NAME}" | tee -a "/home/${APP_USER}/maskopy/bootstrap.log"
 else
    echo "File bootstrap.sh does not exist, Exiting now..."
    exit 1

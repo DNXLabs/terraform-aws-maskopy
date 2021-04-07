@@ -1,6 +1,6 @@
 #!/bin/bash -e
 set -o pipefail
-export AWS_DEFAULT_REGION=us-east-1
+export AWS_DEFAULT_REGION=$1
 #set -x
 # File:           bootstrap.sh
 # Description:    Script to run data obfuscation for all the components.
@@ -11,10 +11,10 @@ if [ $# -eq 0 ]; then
 fi
 touch bootstrap.log
 echo "Starting bootstrap process" | tee -a bootstrap.log
-RDS_ENDPOINT=$1
-TARGET_PORT=$2
-RDS_MASTER_USER=$3
-DB_NAME="MASKOPY"
+RDS_ENDPOINT=$2
+TARGET_PORT=$3
+RDS_MASTER_USER=$4
+DB_NAME=$5
 
 psql \
     --host=${RDS_ENDPOINT} \

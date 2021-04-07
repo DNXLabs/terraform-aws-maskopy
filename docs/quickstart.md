@@ -1,6 +1,6 @@
 # Quick Start
 
-This quick start will help us get started with build, deployment and execution of Maskopy Step Function. 
+This quick start will help us get started with build, deployment and execution of Maskopy Step Function.
 The Step Function executes a series of lambda functions and runs a fargate task to obfuscate data.
 
 ## Pre-requisites
@@ -14,18 +14,18 @@ Need below tools in the local to build lambda functions, connect to AWS accounts
 ### AWS Environment
 Maskopy requires a minimum of two AWS accounts.
 
-1. Source Account : This account hosts the RDS instance within a vpc and subnet which needs to be masked and copied to other accounts. 
+1. Source Account : This account hosts the RDS instance within a vpc and subnet which needs to be masked and copied to other accounts.
 Take a note of vpc-id and subnet-ids. These will be required to provide as inputs when creating resources in this AWS account.
 **IAM Roles** : Follow the steps documented in [Setup in Source account](iam-roles.md#setup-in-source-account) and create IAM roles in source account.
 
-  
-2. Staging Account : This account is where the lambdas and step function are deployed and executed from. 
-The final snapshot gets created in this account. This account needs to have a vpc, public and private subnets, route tables for internet access and s3 bucket to stage lambda code. 
+
+2. Staging Account : This account is where the lambdas and step function are deployed and executed from.
+The final snapshot gets created in this account. This account needs to have a vpc, public and private subnets, route tables for internet access and s3 bucket to stage lambda code.
 Just like from the source account, take a note of AWS 12-digit account number, vpc-id, subnet-ids and s3 bucket name. These will be needed to provide as input to create resources in the AWS account.
 **IAM Roles** : Follow the steps documented in [Setup in Staging account](iam-roles.md#setup-in-staging-account) and create IAM roles in staging account.
 
 Current version of Maskopy treats the staging account as destination account where the final snapshot is copied.
-Future versions will be able to obfuscate once in the staging account and copy to multiple destination accounts.  
+Future versions will be able to obfuscate once in the staging account and copy to multiple destination accounts.
 
 ## Create Resources in AWS
 
@@ -62,22 +62,24 @@ export AWS_SECURITY_TOKEN=$(echo "${STS_OUTPUT}" | cut -f5)
 Input to Maskopy is provided through environment variables. Below are the list of input that is required to run Maskopy. Refer to the description and examples of all the variables in the table below.
 
 
-| Env Variable             | Description                                                                                                                                                                                    | Example                                                   |
-|--------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
+| Env Variable             | Description | Example |
+|--------------------------|-------------|---------|
 | APPLICATION_NAME         | Name of the application running Maskopy. `The name must be part of IAM user/role name executing the step function`.                                                                             | MASKOPY                                                   |
-| COST_CENTER              | All the temporary resources are tagged with the code.                                                                                                                                          | abc123                                                    |
-| DESTINATION_ENV          | SDLC environment name                                                                                                                                                                          | dev                                                       |
-| OBFUSCATION_SCRIPT_PATH  | Location of bootstrap.sh in S3 bucket                                                                                                                                                          | my-obfuscation-bucket-name/obfuscation                    |
-| RDS_OPTION_GROUP         | `Optional parameter`                                                                                                                                                                           |           |
-| RDS_PARAMETER_GROUP      | `Optional parameter`                                                                                                                                                                           |           |
-| RDS_SNAPSHOT_IDENTIFIER  | This is the rds snapshot id in the source account. `Must be tagged with key:ApplicationName and Value: <APPLICATION_NAME>`.                                                                    | rds:myapp-ora-maskopy-test-1-2019-11-25-06-12             |
-| STEP_FN_ARN              | Arn of the step function to execute.                                                                                                                                                           | arn:aws:states:us-east-1:123456789012:stateMachine:MASKOPY-CLIENT-StateMachine              |
+| COST_CENTER              | All the temporary resources are tagged with the code. | abc123    |
+| DB_NAME                  | The database name.                                    | maskopy   |
+| DESTINATION_ENV          | SDLC environment name                                 | dev       |
+| OBFUSCATION_SCRIPT_PATH  | Location of bootstrap.sh in S3 bucket                 | my-obfuscation-bucket-name/obfuscation |
+| RDS_OPTION_GROUP         | `Optional parameter` |                                |
+| RDS_PARAMETER_GROUP      | `Optional parameter` |                                |
+| RDS_SNAPSHOT_IDENTIFIER  | This is the rds snapshot id in the source account. `Must be tagged with key:ApplicationName and Value: <APPLICATION_NAME>`. | rds:myapp-ora-maskopy-test-1-2019-11-25-06-12             |
+| STEP_FN_ARN              | Arn of the step function to execute. | arn:aws:states:us-east-1:123456789012:stateMachine:MASKOPY-CLIENT-StateMachine |
 
 
 Export the following environment variables into the shell.
 ```sh
 export APPLICATION_NAME="<APP_NAME>"
 export COST_CENTER="<COST_CENTER_FOR_BILLING>"
+export DB_NAME="maskopy"
 export DESTINATION_ENV="<TARGET_ENV>"
 export OBFUSCATION_SCRIPT_PATH="<S3_BUCKET_NAME>/obfuscation>"
 export RDS_OPTION_GROUP="<RDS_OPTION_GROUP_NAME-OPTIONAL>"

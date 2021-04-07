@@ -105,6 +105,14 @@ def lambda_handler(event, context):
         {
             'name': 'TIMESTAMP',
             'value': timestamp
+        },
+        {
+            'name': 'AWS_DEFAULT_REGION',
+            'value': event['AwsDefaultRegion']
+        },
+        {
+            'name': 'DB_NAME',
+            'value': event['DbName']
         }
     ]
 
