@@ -74,7 +74,7 @@ resource "aws_iam_policy" "maskopy_trust_lambda_role_policy" {
         ],
         "Resource" : [
           "arn:aws:rds:*:*:*:*maskopy*",
-          "arn:aws:rds:*:*:pg:default*",
+          "arn:aws:rds:*:*:pg:*",
           "arn:aws:rds:*:*:subgrp:${var.rds_staging_subnet_group_name}"
         ]
       },
