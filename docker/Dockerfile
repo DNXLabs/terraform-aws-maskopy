@@ -21,6 +21,7 @@ RUN yum install aws-cli \
                 mailx \
                 perl.x86_64 \
                 postgresql \
+                mysql57 \
                 shadow-utils \
                 sudo \
                 tar \
