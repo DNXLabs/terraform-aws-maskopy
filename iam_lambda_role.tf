@@ -73,7 +73,7 @@ resource "aws_iam_policy" "maskopy_trust_lambda_role_policy" {
           "rds:RestoreDBInstanceFromDBSnapshot"
         ],
         "Resource" : [
-          "arn:aws:rds:*:*:*:*maskopy*",
+          "arn:aws:rds:*:*:*:*",
           "arn:aws:rds:*:*:pg:*",
           "arn:aws:rds:*:*:subgrp:${var.rds_staging_subnet_group_name}"
         ]
