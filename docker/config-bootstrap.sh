@@ -18,6 +18,7 @@ function log_vars {
     log_msg "$1" "INFO" "APP_USER=${APP_USER}"
     log_msg "$1" "INFO" "RDS_ENDPOINT=${RDS_ENDPOINT}"
     log_msg "$1" "INFO" "ENDPOINT=${ENDPOINT}"
+    log_msg "$1" "INFO" "DB_NAME=${DB_NAME}"
 }
 
 # Update master password of RDS instance.
@@ -31,7 +32,11 @@ TARGET_PORT=$(echo ${ENDPOINT} | cut -d ' ' -f 3)
 
 aws rds wait db-instance-available --db-instance-identifier "${RDS_INSTANCE_IDENTIFIER}"
 aws rds modify-db-instance --db-instance-identifier "${RDS_INSTANCE_IDENTIFIER}" --master-user-password "${PASSWORD}" --apply-immediately
-sleep 60
+
+while [  "$(aws rds describe-db-instances --db-instance-identifier ${RDS_INSTANCE_IDENTIFIER} --query 'DBInstances[*].DBInstanceStatus' --output text)" != "resetting-master-credentials" ]; do
+    sleep 10
+done
+
 aws rds wait db-instance-available --db-instance-identifier "${RDS_INSTANCE_IDENTIFIER}"
 
 echo  """
@@ -58,7 +63,7 @@ if [ -f bootstrap.sh ]; then
    chown -R $APP_USER:$APP_USER /home/$APP_USER/maskopy
    chown -R $APP_USER:$APP_USER /var/log
    chown -R $APP_USER:$APP_USER "/home/${APP_USER}/maskopy/bootstrap.log"
-   su -m $APP_USER -c "cd /home/$APP_USER/maskopy; PASSWORD=$PASSWORD bash -e ./bootstrap.sh ${AWS_DEFAULT_REGION} ${RDS_ENDPOINT} ${TARGET_PORT} ${RDS_MASTER_USER} ${DB_NAME}" | tee -a "/home/${APP_USER}/maskopy/bootstrap.log"
+   su -m $APP_USER -c "cd /home/$APP_USER/maskopy; bash -e ./bootstrap.sh ${AWS_DEFAULT_REGION} ${RDS_ENDPOINT} ${RDS_MASTER_USER} ${PASSWORD} ${DB_NAME}" | tee -a "/home/${APP_USER}/maskopy/bootstrap.log"
 else
    echo "File bootstrap.sh does not exist, Exiting now..."
    exit 1
