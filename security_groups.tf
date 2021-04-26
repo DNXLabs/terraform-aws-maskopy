@@ -60,6 +60,18 @@ resource "aws_security_group_rule" "outbound_rule_02" {
   source_security_group_id = aws_security_group.maskopy_db[0].id
 }
 
+resource "aws_security_group_rule" "outbound_rule_03" {
+  provider = aws.staging
+  count    = var.enabled ? 1 : 0
+
+  type                     = "egress"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.maskopy_app[0].id
+  source_security_group_id = aws_security_group.maskopy_db[0].id
+}
+
 resource "aws_security_group_rule" "inbound_rule_00" {
   provider = aws.staging
   count    = var.enabled ? 1 : 0
@@ -79,6 +91,18 @@ resource "aws_security_group_rule" "inbound_rule_01" {
   type                     = "ingress"
   from_port                = 5432
   to_port                  = 5432
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.maskopy_db[0].id
+  source_security_group_id = aws_security_group.maskopy_app[0].id
+}
+
+resource "aws_security_group_rule" "inbound_rule_02" {
+  provider = aws.staging
+  count    = var.enabled ? 1 : 0
+
+  type                     = "ingress"
+  from_port                = 3306
+  to_port                  = 3306
   protocol                 = "tcp"
   security_group_id        = aws_security_group.maskopy_db[0].id
   source_security_group_id = aws_security_group.maskopy_app[0].id
