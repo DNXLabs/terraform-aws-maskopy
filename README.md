@@ -93,6 +93,10 @@ module "maskopy" {
 | lambdas\_names | n/a | `list(string)` | <pre>[<br>  "00-AuthorizeUser",<br>  "01-UseExistingSnapshot",<br>  "02-CheckForSnapshotCompletion",<br>  "03-ShareSnapshots",<br>  "04-CopySharedDBSnapshots",<br>  "05-CheckForDestinationSnapshotCompletion",<br>  "06-RestoreDatabases",<br>  "07-CheckForRestoreCompletion",<br>  "08a-CreateFargate",<br>  "08b-CreateECS",<br>  "09-TakeSnapshot",<br>  "10-CheckFinalSnapshotAvailability",<br>  "11-CleanupAndTagging",<br>  "ErrorHandlingAndCleanup"<br>]</pre> | no |
 | obfuscation\_scripts\_bucket\_name | Bucket to store the obfuscations scripts, they should be uploaded inside `/obfuscation` folder. | `string` | n/a | yes |
 | rds\_staging\_subnet\_group\_name | Staging RDS option group name to deploy the transient database. | `string` | n/a | yes |
+| replicate\_destination\_account\_id | Name of the bucket to send dumps data from source bucket. | `string` | `""` | no |
+| replicate\_destination\_bucket\_name | Name of the bucket to send dumps data from source bucket. | `string` | `""` | no |
+| replicate\_obfuscation\_bucket | Replicate data inside the bucket to another acount. | `bool` | `true` | no |
+| replicate\_obfuscation\_bucket\_prefix | Name of prefix to replicate inside the bucket to another acount. | `string` | `"dumps"` | no |
 | sqs\_queue\_name | SNS queue name to send messages when step functions complete running. | `string` | `"maskopy_sqs_queue"` | no |
 | staging\_rds\_default\_kms\_key\_id | KMS key that maskopy will use for the transient RDS. | `string` | n/a | yes |
 | staging\_subnet\_ids | Subnets inside the staging VPC to deploy the lambdas and ECS tasks. | `list(string)` | n/a | yes |
