@@ -40,7 +40,7 @@ variable "step_function_state_machine_name" {
 
 variable "ecs_docker_image" {
   type        = string
-  default     = "dnxsolutions/postgres-maskopy"
+  default     = "dnxsolutions/obfuscation"
   description = "Docker image that ECS task will run with and will download the scripts from S3 obfuscation bucket."
 }
 

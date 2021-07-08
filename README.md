@@ -86,7 +86,7 @@ module "maskopy" {
 | create\_obfuscation\_scripts\_bucket | Create bucket to store obfuscation scripts. | `bool` | `true` | no |
 | custom\_source\_kms\_key | Custom KMS key, used when variable `custom_source_kms_key_enabled` equals to true. | `string` | `""` | no |
 | custom\_source\_kms\_key\_enabled | Only used when encrypt RDS in source account with another KMS key. Remember to add permissions to the existing key. | `bool` | `false` | no |
-| ecs\_docker\_image | Docker image that ECS task will run with and will download the scripts from S3 obfuscation bucket. | `string` | `"dnxsolutions/postgres-maskopy"` | no |
+| ecs\_docker\_image | Docker image that ECS task will run with and will download the scripts from S3 obfuscation bucket. | `string` | `"dnxsolutions/obfuscation"` | no |
 | ecs\_fargate\_role\_name | ECS role name. | `string` | `"ECS_MASKOPY"` | no |
 | enabled | If true, will deploy the maskopy solution. | `bool` | `true` | no |
 | lambda\_role\_name | Lambda role name. | `string` | `"LAMBDA_MASKOPY"` | no |
