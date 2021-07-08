@@ -89,6 +89,30 @@ variable "obfuscation_scripts_bucket_name" {
   description = "Bucket to store the obfuscations scripts, they should be uploaded inside `/obfuscation` folder."
 }
 
+variable "replicate_obfuscation_bucket" {
+  type        = bool
+  default     = true
+  description = "Replicate data inside the bucket to another acount."
+}
+
+variable "replicate_obfuscation_bucket_prefix" {
+  type        = string
+  default     = "dumps"
+  description = "Name of prefix to replicate inside the bucket to another acount."
+}
+
+variable "replicate_destination_bucket_name" {
+  type        = string
+  default     = ""
+  description = "Name of the bucket to send dumps data from source bucket."
+}
+
+variable "replicate_destination_account_id" {
+  type        = string
+  default     = ""
+  description = "Name of the bucket to send dumps data from source bucket."
+}
+
 variable "application_name" {
   type        = string
   default     = "MASKOPY"
