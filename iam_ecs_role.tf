@@ -87,6 +87,29 @@ resource "aws_iam_policy" "maskopy_ecs_fargate_policy" {
           "kms:CreateGrant"
         ],
         "Resource" : "arn:aws:kms:${data.aws_region.current.name}:${data.aws_caller_identity.staging.account_id}:key/${var.staging_rds_default_kms_key_id}"
+      },
+      {
+        "Sid" : "S3Policy",
+        "Effect" : "Allow",
+        "Action" : [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:PutObject"
+        ],
+        "Resource" : "arn:aws:s3:::${var.obfuscation_scripts_bucket_name}/*"
+      },
+      {
+        "Sid" : "S3LargePolicy",
+        "Effect" : "Allow",
+        "Action" : [
+          "s3:ListBucketMultipartUploads",
+          "s3:AbortMultipartUpload",
+          "s3:ListMultipartUploadParts"
+        ],
+        "Resource" : [
+          "arn:aws:s3:::${var.obfuscation_scripts_bucket_name}",
+          "arn:aws:s3:::${var.obfuscation_scripts_bucket_name}/*"
+        ]
       }
     ]
   })
