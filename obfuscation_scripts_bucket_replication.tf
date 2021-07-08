@@ -2,8 +2,8 @@ resource "aws_s3_bucket" "source_snapshot_bucket" {
   count    = (var.enabled && var.create_obfuscation_scripts_bucket && var.replicate_obfuscation_bucket) ? 1 : 0
   provider = aws.staging
 
-  bucket   = var.obfuscation_scripts_bucket_name
-  acl      = "private"
+  bucket = var.obfuscation_scripts_bucket_name
+  acl    = "private"
 
   versioning {
     enabled = true
@@ -35,7 +35,7 @@ resource "aws_s3_bucket" "source_snapshot_bucket" {
 }
 
 resource "aws_iam_role" "replication" {
-  count    = (var.enabled && var.create_obfuscation_scripts_bucket && var.replicate_obfuscation_bucket) ? 1 : 0
+  count = (var.enabled && var.create_obfuscation_scripts_bucket && var.replicate_obfuscation_bucket) ? 1 : 0
 
   name = "${var.obfuscation_scripts_bucket_name}-iam-role-replication"
 
@@ -57,7 +57,7 @@ POLICY
 }
 
 resource "aws_iam_policy" "replication" {
-  count    = (var.enabled && var.create_obfuscation_scripts_bucket && var.replicate_obfuscation_bucket) ? 1 : 0
+  count = (var.enabled && var.create_obfuscation_scripts_bucket && var.replicate_obfuscation_bucket) ? 1 : 0
 
   name = "${var.obfuscation_scripts_bucket_name}-iam-role-policy-replication"
 
@@ -102,7 +102,7 @@ POLICY
 }
 
 resource "aws_iam_role_policy_attachment" "replication" {
-  count    = (var.enabled && var.create_obfuscation_scripts_bucket && var.replicate_obfuscation_bucket) ? 1 : 0
+  count = (var.enabled && var.create_obfuscation_scripts_bucket && var.replicate_obfuscation_bucket) ? 1 : 0
 
   role       = aws_iam_role.replication[0].name
   policy_arn = aws_iam_policy.replication[0].arn
