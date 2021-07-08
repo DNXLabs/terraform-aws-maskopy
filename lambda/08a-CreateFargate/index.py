@@ -174,8 +174,6 @@ def create_task_definition(task_definition_name, task_definition_environment, cp
                     'name': task_definition_name[:255],
                     'image': image or default_image,
                     'essential': True,
-                    'memory': 1024,
-                    'cpu': 80,
                     'logConfiguration': {
                         'logDriver': 'awslogs',
                         'options': {
